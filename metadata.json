@@ -1,0 +1,5 @@
+{
+  "name": "Recipe with Aman Dubey",
+  "description": "A culinary assistant app that generates recipes from photos of ingredients. Key features include uploading ingredient photos, viewing AI-generated recipe suggestions, saving favorite recipes, and adjusting serving sizes for a recipe.",
+  "requestFramePermissions": []
+}
