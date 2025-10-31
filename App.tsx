@@ -1,22 +1,52 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ImageUploader from './components/ImageUploader';
 import LoadingSpinner from './components/LoadingSpinner';
 import RecipeCard from './components/RecipeCard';
 import { generateRecipesFromImage } from './services/geminiService';
-import { Recipe } from './types';
+import { Recipe, BeforeInstallPromptEvent } from './types';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { ChefLogoIcon } from './components/icons';
 import { LanguageContext } from './contexts/LanguageContext';
 import { useTranslations } from './hooks/useTranslations';
+import InstallPWAButton from './components/InstallPWAButton';
 
 function App() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [recipes, setRecipes] = useLocalStorage<Recipe[]>('recipes', []);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   
   const { language, setLanguage } = useContext(LanguageContext);
   const t = useTranslations();
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      // Prevent the mini-infobar from appearing on mobile
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) {
+      return;
+    }
+    // Show the install prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response to the install prompt: ${outcome}`);
+    // We've used the prompt, and can't use it again, throw it away
+    setDeferredPrompt(null);
+  };
 
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'hi' : 'en');
@@ -98,7 +128,8 @@ function App() {
 
   return (
     <div className="bg-earth-100 min-h-screen font-sans">
-        <header className="absolute top-0 right-0 p-6">
+        <header className="absolute top-0 right-0 p-6 flex items-center gap-4">
+            {deferredPrompt && <InstallPWAButton onClick={handleInstallClick} />}
             <button 
                 onClick={toggleLanguage}
                 className="bg-earth-200 text-earth-700 font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-earth-500 hover:text-white transition-colors"

@@ -1,0 +1,30 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <!-- Hat Top -->
+      <path
+        d="M 50,15 C 25,15 15,35 30,55 C 35,65 65,65 70,55 C 85,35 75,15 50,15 Z"
+        fill="#F7F3E9"
+        stroke="#6B5738"
+        stroke-width="3"
+        stroke-linejoin="round"
+      />
+      <circle cx="25" cy="60" r="15" fill="#F7F3E9" stroke="#6B5738" stroke-width="3" />
+      <circle cx="75" cy="60" r="15" fill="#F7F3E9" stroke="#6B5738" stroke-width="3" />
+      
+      <!-- Hat Band -->
+      <rect x="15" y="70" width="70" height="15" rx="3" fill="#6B5738" />
+
+      <!-- Leaf on Band -->
+      <g transform="translate(42, 71.5) scale(0.15)">
+        <path
+          d="M50,90 C10,40 40,10 50,10 C60,10 90,40 50,90 Z"
+          fill="#6A994E"
+          stroke="#386641"
+          stroke-width="6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <line x1="50" y1="90" x2="50" y2="30" stroke="#386641" stroke-width="6" stroke-linecap="round" />
+      </g>
+    </g>
+  </svg>

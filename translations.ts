@@ -17,6 +17,7 @@ export const translations = {
     error_oops: "Oops!",
     error_upload: "Please upload an image first.",
     languageToggle: "हिंदी में देखें",
+    installApp: "Install App",
   },
   hi: {
     title: "रेसिपी",
@@ -36,5 +37,6 @@ export const translations = {
     error_oops: "उफ़!",
     error_upload: "कृपया पहले एक छवि अपलोड करें।",
     languageToggle: "View in English",
+    installApp: "ऐप इंस्टॉल करें",
   }
 };
